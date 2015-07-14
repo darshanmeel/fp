@@ -6,6 +6,14 @@ Created on Fri Jul 03 22:35:02 2015
 """
 import numpy as np
 import math
+import os,sys,inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+print parentdir
+moduledir = parentdir + '/common'
+print moduledir
+sys.path.insert(0,moduledir) 
+
 from active_functions import *
 from loss_functions import *
 
@@ -162,13 +170,13 @@ class autoencoder_single_hidden_layer:
             
                 dout4,_  = self.predict(train_data)         
                 train_pred = dout4
-                err = np.sqrt(np.sum(np.square(train_pred - train_data)))
+                err = np.sqrt(np.sum(np.square(train_pred - train_data)))/train_data.shape[0]
 
                 train_err.append(err)
                 
                 dout4,_ = self.predict(test_data)         
                 test_pred = dout4
-                err = np.sqrt(np.sum(np.square(test_pred - test_data)))
+                err = np.sqrt(np.sum(np.square(test_pred - test_data)))/test_data.shape[0]
                 valid_err.append(err)              
             print 'end epoch ', epoch
         return(train_err,valid_err)

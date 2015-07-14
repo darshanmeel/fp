@@ -8,7 +8,7 @@ import os,sys,inspect
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 print parentdir
-moduledir = parentdir + '\common'
+moduledir = parentdir + '/common'
 print moduledir
 sys.path.insert(0,moduledir) 
 
@@ -41,21 +41,36 @@ print train_data.shape
 print test_data.shape
 print valid_data.shape
 
+cols = pd.read_csv('C:\Users\Inpiron\Documents\col.csv')
+cols = np.array(cols)
+cols = list(cols[:,0])
+print cols
 
+'''
+train_data = train_data[:,cols]
+test_data = test_data[:,cols]
+valid_data = valid_data[:,cols] 
+'''
+print train_data.shape
+print test_data.shape
+print valid_data.shape
 
 n_input = train_data.shape[1]
-n_hidden = 32
 n_out = len(np.unique(train_class))
 print n_out
-for n_hidden in range(24,145,8):
+for n_hidden in range(572,573,8):
     print
+    print 'starts'
     print n_hidden
-    nn1 = NN_single_hidden_layer(n_hidden,n_input,n_out,epochs = 20,batchsize=10,learning_rate=0.1,loss_fnc=rms_cls,reg = 0.0005,momentum = 0.95)
+    nn1 = NN_single_hidden_layer(n_hidden,n_input,n_out,epochs = 200,batchsize=5,learning_rate=0.1,loss_fnc=rms_cls,reg = 0.00001,momentum = 0.95)
     train_error,valid_error = nn1.fit(train_data,train_class,test_data,test_class)
         
     print train_error
     print
     print valid_error
+    print
+    print 'ends'
+    print
 '''
 print
 print nn1.nn['w1']
